@@ -9,7 +9,7 @@ const inter = Inter({ subsets: ['latin'] });
 // Function to extract response from message
 function extractResponse(message: string) {
   if (!message) return '';
-  
+
   const parts = message.split('---');
   if (parts.length > 2 && parts[2]) {
     return parts[2].trim();
@@ -23,15 +23,15 @@ export default function Home() {
   const [response, setResponse] = useState('');
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
   // Update response and scroll to bottom when messages change
   useEffect(() => {
     if (messages.length > 0 && messages[messages.length - 1].role === 'assistant') {
       setResponse(extractResponse(messages[messages.length - 1].content));
     }
-    
+
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' });
     }
@@ -52,7 +52,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           messages: [...messages, { role: 'user', content: userMessage }]
         }),
       });
@@ -74,7 +74,7 @@ export default function Home() {
           <h1 className="text-4xl font-bold mb-2 text-indigo-700">Career Path Advisor</h1>
           <p className="text-gray-600">AI-powered guidance for your professional journey</p>
         </div>
-        
+
         <div className="bg-white rounded-2xl shadow-xl p-5 mb-6 h-[65vh] overflow-y-auto border border-indigo-100">
           {messages.length === 0 ? (
             <div className="text-center py-12">
@@ -86,22 +86,22 @@ export default function Home() {
               <h2 className="text-2xl font-semibold mb-3 text-indigo-700">Welcome to Career Path Advisor!</h2>
               <p className="text-gray-600 max-w-lg mx-auto">
                 I can help you discover the perfect career path based on your interests, skills, and education.
-                Share a bit about yourself, and let's explore your professional possibilities together!
+                Share a bit about yourself, and let&quot;s explore your professional possibilities together!
               </p>
               <div className="mt-6 space-y-2">
                 <p className="text-sm text-gray-500">Try asking:</p>
                 <div className="flex flex-wrap gap-2 justify-center">
-                  <button 
+                  <button
                     onClick={() => setInput("I love programming and solving problems. I have a degree in computer science.")}
                     className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full text-sm transition"
                   >
-                    "I love programming and solving problems..."
+                    &quot;I love programming and solving problems...&quot;
                   </button>
-                  <button 
+                  <button
                     onClick={() => setInput("I'm creative and enjoy designing things. What careers could suit me?")}
                     className="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 px-3 py-1.5 rounded-full text-sm transition"
                   >
-                    "I'm creative and enjoy designing things..."
+                    &quot;I&quot;m creative and enjoy designing things...&quot;
                   </button>
                 </div>
               </div>
@@ -114,11 +114,10 @@ export default function Home() {
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`p-4 rounded-2xl max-w-[85%] ${
-                      message.role === 'user'
+                    className={`p-4 rounded-2xl max-w-[85%] ${message.role === 'user'
                         ? 'bg-indigo-600 text-white rounded-tr-none'
                         : 'bg-gray-100 text-gray-800 rounded-tl-none'
-                    }`}
+                      }`}
                   >
                     {message.role === 'assistant' ? (
                       <div className="prose prose-sm max-w-none">
@@ -132,6 +131,12 @@ export default function Home() {
                   </div>
                 </div>
               ))}
+              {response && (
+                <div className="text-sm text-gray-500 mt-2">
+                  <strong>Response:</strong> {response}
+                </div>
+              )}
+
               {isLoading && (
                 <div className="flex justify-start">
                   <div className="bg-gray-100 p-4 rounded-2xl rounded-tl-none">
@@ -164,7 +169,7 @@ export default function Home() {
             {isLoading ? 'Thinking...' : 'Ask'}
           </button>
         </form>
-        
+
         <p className="text-xs text-center mt-6 text-gray-500">
           Powered by Mixtral via Hugging Face • Your personal AI career advisor
         </p>

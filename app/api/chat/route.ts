@@ -1,7 +1,5 @@
 import { NextResponse } from 'next/server';
 import { HfInference } from '@huggingface/inference';
-import { Message as AIMessage } from 'ai';
-import { StreamingTextResponse } from '../streaming';
 
 // Initialize Hugging Face client
 // Note: You should add HF_ACCESS_TOKEN to your .env file
@@ -163,8 +161,8 @@ const careerDomains: CareerDomain[] = [
 // Find matching careers based on user input
 function findMatchingCareers(userMessage: string): MatchResults {
   const lowercaseMessage = userMessage.toLowerCase();
-  let matchedJobs: Job[] = [];
-  let matchedDomains = new Set<string>();
+  const matchedJobs: Job[] = [];
+  const matchedDomains = new Set<string>();
   
   // Find direct matches based on interests and education
   careerDomains.forEach(domain => {
